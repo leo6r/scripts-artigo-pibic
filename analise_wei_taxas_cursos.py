@@ -11,8 +11,8 @@ plt.rcParams['ps.fonttype'] = 42
 plt.rcParams['font.family'] = 'sans-serif'
 
 # ================= CONFIGURAÇÕES =================
-CAMINHO_PASTA = 'C:/Users/ronal/Área de Trabalho/PIBIC SCRIPT/dados_censo_anos'
-PASTA_SAIDA = 'C:/Users/ronal/Área de Trabalho/PIBIC SCRIPT/resultados_wei_taxas_cursos'
+CAMINHO_PASTA = 'C:/Users/meu_endereco' #adicione aqui o endereço onde os arquivos microdados serão salvos
+PASTA_SAIDA = 'C:/Users/meu_endereco'   #a mesma coisa para este, no caso, para a pasta onde será salvo os resultados
 
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
@@ -77,7 +77,6 @@ def calcular_taxas_cursos(df):
     dados_curso_grau = df.groupby(['ano', 'CURSO_SIGLA', 'Grau_Acadêmico'])[cols_sum].sum().reset_index()
     anos = sorted(df['ano'].unique())
     resultados = []
-    # Adicionado 'OUTROS' na lista de foco
     cursos_foco = ['ADS', 'SI', 'CC', 'GTI', 'OUTROS']
     for curso in cursos_foco:
         for i in range(1, len(anos)):
@@ -114,7 +113,6 @@ def calcular_taxas_cursos(df):
 
 def plotar_painel_compacto(df_plot, metrica_prefix, nome_arquivo, label_y, texto_ind, texto_ni):
     df_f = df_plot[df_plot['Ano'] >= 2019].copy()
-    # COMPRESSÃO: Altura reduzida (3.2) para economizar espaço no WEI
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.5, 3.2), sharey=True)
     
     # Dicionário mapeando cada curso à sua respectiva cor, marcador e estilo de linha
@@ -123,7 +121,7 @@ def plotar_painel_compacto(df_plot, metrica_prefix, nome_arquivo, label_y, texto
         'SI':     {'cor': '#ff7f0e', 'marca': 's', 'ls': '-'},
         'CC':     {'cor': '#2ca02c', 'marca': '^', 'ls': '-'},
         'GTI':    {'cor': '#d62728', 'marca': 'D', 'ls': '-'},
-        'OUTROS': {'cor': '#7f7f7f', 'marca': 'X', 'ls': '--'} # Linha tracejada e cor cinza para "Outros"
+        'OUTROS': {'cor': '#7f7f7f', 'marca': 'X', 'ls': '--'}
     }
     
     for curso in df_f['Curso'].unique():
@@ -147,7 +145,6 @@ def plotar_painel_compacto(df_plot, metrica_prefix, nome_arquivo, label_y, texto
         ax.spines['right'].set_visible(False)
 
     ax1.set_ylabel(label_y, fontsize=8.5, fontweight='bold')
-    # Legenda compacta centralizada (ncol alterado para 6 para comportar o 'OUTROS')
     handles, labels = ax1.get_legend_handles_labels()
     fig.legend(handles, labels, loc='lower center', ncol=6, bbox_to_anchor=(0.5, -0.05), fontsize=8, frameon=False)
     
@@ -159,7 +156,6 @@ if __name__ == "__main__":
     df = carregar_dados()
     res = calcular_taxas_cursos(df)
     
-    # ATENÇÃO: Substitua "XXX" e "YYY" abaixo pelos totais corretos de estudantes evadidos!
     plotar_painel_compacto(res, 'TE', 'painel_taxa_evasao_cursos.pdf', 'Taxa de Evasão (%)', 
                            texto_ind="(Total Evadidos: 5.005)", 
                            texto_ni="(Total Evadidos: 1.308.047)")
@@ -168,4 +164,5 @@ if __name__ == "__main__":
                            texto_ind="(Total Formados: 1.390)", 
                            texto_ni="(Total Formados: 415.528)")
                            
+
     print(f"Arquivos salvos em: {PASTA_SAIDA}")
