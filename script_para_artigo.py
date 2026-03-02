@@ -201,45 +201,34 @@ def plot_distribuicao_comparativa(df, coluna_atributo, nome_arquivo, estrato_tit
         ax.set_xticks([]) 
         ax.get_legend().remove() 
 
-    # =========================================================
-    # LÓGICA DE POSICIONAMENTO DINÂMICO (ANTI-SOBREPOSIÇÃO)
-    # =========================================================
     for ax, df_pct in zip([ax1, ax2], [pct_ind, pct_ni]):
         for n, x in enumerate(df_pct.index):
             soma_x = 0
-            x_texts = [] # Guarda as posições X dos textos desenhados nesta barra
+            x_texts = []
             
             for col in df_pct.columns:
                 valor = df_pct.loc[x, col]
                 if valor > 0:
-                    # 1. Encontra o centro natural da fatia
                     x_center = soma_x + valor / 2
                     
-                    # 2. Proteção da margem esquerda (não deixa o texto sumir)
                     if x_center < 3.5:
                         x_center = 3.5
                     
-                    # 3. Lógica de Repulsão (o segredo para não sobrepor!)
-                    # Se já desenhamos um texto antes, calculamos a distância
                     if len(x_texts) > 0:
                         distancia = x_center - x_texts[-1]
-                        if distancia < 7.5: # 7.5% de distância segura para a fonte tamanho 10
-                            x_center = x_texts[-1] + 7.5 # Empurra para a direita
+                        if distancia < 7.5:
+                            x_center = x_texts[-1] + 7.5
                     
-                    # 4. Proteção da margem direita
                     if x_center > 96.5:
                         x_center = 96.5
                         
                     x_texts.append(x_center)
-                    
-                    # Desenha o texto sempre centralizado na nova coordenada segura
                     ax.text(x_center, n, f'{valor:.1f}%'.replace('.', ','), 
                             ha='center', va='center', color='black', 
                             fontsize=10, fontweight='bold')
                 soma_x += valor
 
     handles, labels = ax1.get_legend_handles_labels()
-    # Legenda maior (10)
     fig.legend(handles, labels, loc='lower center', ncol=len(labels), 
                bbox_to_anchor=(0.5, -0.02), fontsize=10, frameon=False)
 
@@ -259,4 +248,5 @@ if __name__ == "__main__":
         plot_distribuicao_comparativa(df_base, 'Rede', 'distribuicao_rede.pdf', 'Rede de Ensino')
         plot_distribuicao_comparativa(df_base, 'Modalidade', 'distribuicao_modalidade.pdf', 'Modalidade de Ensino')
         
+
         print(f"\nProcesso finalizado! Todos os PDFs com FONTES MAIORES e ANTI-SOBREPOSIÇÃO foram salvos em: {PASTA_SAIDA}")
