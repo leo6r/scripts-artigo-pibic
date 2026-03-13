@@ -10,8 +10,8 @@ plt.rcParams['ps.fonttype'] = 42
 plt.rcParams['font.family'] = 'sans-serif' 
 
 # ================= CONFIGURAÇÕES =================
-CAMINHO_PASTA = 'C:/Users/meu_endereco'
-PASTA_SAIDA = 'C:/Users/meu_endereco'
+CAMINHO_PASTA = 'C:/Users/meu_endereco' #adicione aqui o endereço onde os arquivos dos microdados estão salvos
+PASTA_SAIDA = 'C:/Users/meu_endereco'   #adicione aqui o endereço onde os resultados serão salvos
 
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
