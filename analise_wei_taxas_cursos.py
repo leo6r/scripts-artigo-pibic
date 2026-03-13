@@ -133,8 +133,8 @@ def plotar_painel_compacto(df_plot, metrica_prefix, nome_arquivo, label_y, texto
                  color=estilo['cor'], linestyle=estilo['ls'], linewidth=1.5, markersize=4)
 
     # Títulos agora dinâmicos e adaptáveis à evasão ou sucesso
-    ax1.set_title(f"Estudantes Indígenas {texto_ind}", fontsize=9, fontweight='bold', pad=5)
-    ax2.set_title(f"Estudantes Não-Indígenas {texto_ni}", fontsize=9, fontweight='bold', pad=5)
+    ax1.set_title(f"Estudantes Indígenas", fontsize=9, fontweight='bold', pad=5)
+    ax2.set_title(f"Estudantes Não-Indígenas", fontsize=9, fontweight='bold', pad=5)
     
     for ax in [ax1, ax2]:
         ax.set_ylim(0, 105)
@@ -156,13 +156,9 @@ if __name__ == "__main__":
     df = carregar_dados()
     res = calcular_taxas_cursos(df)
     
-    plotar_painel_compacto(res, 'TE', 'painel_taxa_evasao_cursos.pdf', 'Taxa de Evasão (%)', 
-                           texto_ind="(Total Evadidos: 5.005)", 
-                           texto_ni="(Total Evadidos: 1.308.047)")
+    plotar_painel_compacto(res, 'TE', 'painel_taxa_evasao_cursos.pdf', 'Taxa de Evasão (%)')
     
-    plotar_painel_compacto(res, 'TSG', 'painel_taxa_sucesso_cursos.pdf', 'Taxa de Sucesso (TSG)', 
-                           texto_ind="(Total Formados: 1.390)", 
-                           texto_ni="(Total Formados: 415.528)")
+    plotar_painel_compacto(res, 'TSG', 'painel_taxa_sucesso_cursos.pdf', 'Taxa de Sucesso (TSG)')
                            
 
     print(f"Arquivos salvos em: {PASTA_SAIDA}")
