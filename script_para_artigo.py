@@ -10,8 +10,8 @@ plt.rcParams['ps.fonttype'] = 42
 plt.rcParams['font.family'] = 'sans-serif' 
 
 # ================= CONFIGURAÇÕES =================
-CAMINHO_PASTA = 'C:/Users/ronal/Área de Trabalho/PIBIC SCRIPT/dados_censo_anos'
-PASTA_SAIDA = 'C:/Users/ronal/Área de Trabalho/PIBIC SCRIPT/graficos_distribuicao'
+CAMINHO_PASTA = 'C:/Users/meu_endereco'
+PASTA_SAIDA = 'C:/Users/meu_endereco'
 
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
